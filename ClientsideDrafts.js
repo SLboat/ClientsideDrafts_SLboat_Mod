@@ -10,7 +10,7 @@
 		troubleLoad = '<a href="javascript:;" class="clientsidedrafts_loaddraft">',
 		troubleEnd = '</a>',
 		troubleSkip = '<a href="javascript:;" class="clientsidedrafts_skipdraft">',
-		AUTOSAVE_INTERVAL = 30 * 1000; // once per 30 seconds
+		AUTOSAVE_INTERVAL = 10 * 1000; // 每10秒保存一次
 
 	log = mediaWiki.log || (window.console ? window.console.log : $.noop);
 	showMessage = function(msg) {
@@ -93,18 +93,18 @@
 			//      showMessage(t('clientsidedrafts-autosaved', (new Date()).toString()));
 		};
 
-		$('<span id="#savedraftime" style="color: darkcyan;float: right;">船长!将每' + AUTOSAVE_INTERVAL / 1000 + '秒保存草稿</span>').insertAfter('#mw-editpage-watch');
+		$('<span id="savedraftime" style="color: darkcyan;float: right;">船长!将每' + AUTOSAVE_INTERVAL / 1000 + '秒保存草稿</span>').insertAfter('#mw-editpage-watch');
 		setInterval(saveDraft, AUTOSAVE_INTERVAL);
 		loadDraft();
 
-		$('body').delegate('a.clientsidedrafts_loaddraft', 'click', function(e) {
+		$('body').on('a.clientsidedrafts_loaddraft', 'click', function(e) {
 			e.preventDefault();
 			$textarea.val(loadKey(key).draft);
 			autoSaveEnabled = true;
 			saveDraft();
 		});
 
-		$('body').delegate('a.clientsidedrafts_skipdraft', 'click', function(e) {
+		$('body').on('a.clientsidedrafts_skipdraft', 'click', function(e) {
 			e.preventDefault();
 			autoSaveEnabled = true;
 			saveDraft();
