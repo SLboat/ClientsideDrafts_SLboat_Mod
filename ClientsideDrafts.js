@@ -65,8 +65,9 @@
 					log('drafts: draft is equal to original');
 					return;
 				}
-				if (state.original === original) {
+				if (state.original != original) {
 					// can apply our draft immediately, original is not changed
+					showMessage("载入了保存的草稿哦!");
 					$textarea.val(state.draft);
 					log('drafts: loaded');
 				} else {
