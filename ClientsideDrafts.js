@@ -1,8 +1,11 @@
 (function(window, $, undef) {
   "use strict"; //用户构造?
-  var document = window.document, storage = window.localStorage, //保存到本地区
-    JSON = window.JSON, keyPrefix = 'ClientsideDrafts::drafts',
-    mediaWiki = window.mediaWiki, textareaSelector = '#wpTextbox1',
+  var document = window.document, //这里的逗号使得后面都是var局部!
+    storage = window.localStorage, //保存到本地区
+    JSON = window.JSON,
+    keyPrefix = 'ClientsideDrafts::drafts',
+    mediaWiki = window.mediaWiki,
+    textareaSelector = '#wpTextbox1',
     log, showMessage, t,
     troubleLoad = '<a href="javascript:;" class="clientsidedrafts_loaddraft">',
     troubleEnd = '</a>',
@@ -35,18 +38,21 @@
   // State saved as pair { original, draft }
 
   (function(title, userName) {
-    var key = [keyPrefix, userName || '', title].join('-'), loadKey = function(key) {
-      var s = storage.getItem(key);
-      if (s !== null) {
-        s = JSON.parse(s);
-      }
-      return s;
-    }, saveKey = function(key, data) {
-      if (data !== null) {
-        data = JSON.stringify(data);
-      }
-      storage.setItem(key, data);
-    }, $textarea = $(textareaSelector), autoSaveEnabled = true, loadDraft, saveDraft, original;
+    var key = [keyPrefix, userName || '', title].join('-'),
+      loadKey = function(key) {
+        var s = storage.getItem(key);
+        if (s !== null) {
+          s = JSON.parse(s);
+        }
+        return s;
+      }, saveKey = function(key, data) {
+        if (data !== null) {
+          data = JSON.stringify(data);
+        }
+        storage.setItem(key, data);
+      }, $textarea = $(textareaSelector),
+      autoSaveEnabled = true,
+      loadDraft, saveDraft, original;
 
     original = $textarea.val();
 
@@ -73,17 +79,21 @@
     };
 
     saveDraft = function() {
-      var draft = $textarea.val(), state;
-      if (! autoSaveEnabled) {
+      var draft = $textarea.val(),
+        state;
+      if (!autoSaveEnabled) {
         log('drafts: autosave disabled');
         return;
       }
-      state = { original: original, draft: draft };
+      state = {
+        original: original,
+        draft: draft
+      };
       saveKey(key, state);
-//      showMessage(t('clientsidedrafts-autosaved', (new Date()).toString()));
+      //      showMessage(t('clientsidedrafts-autosaved', (new Date()).toString()));
     };
 
-    $('<p style="margin: 10px auto">Черновик сохраняется каждые ' + AUTOSAVE_INTERVAL/1000 + ' секунд.</p>').insertBefore('#editpage-copywarn p');
+    $('<p style="margin: 10px auto">Черновик сохраняется каждые ' + AUTOSAVE_INTERVAL / 1000 + ' секунд.</p>').insertBefore('#editpage-copywarn p');
     setInterval(saveDraft, AUTOSAVE_INTERVAL);
     loadDraft();
 
@@ -103,4 +113,3 @@
   })(mediaWiki.config.values.wgPageName, mediaWiki.config.values.wgUserName);
 
 })(window, jQuery);
-
