@@ -1,6 +1,6 @@
 (function(window, $, undef) {
-  "use strict";
-  var document = window.document, storage = window.localStorage,
+  "use strict"; //用户构造?
+  var document = window.document, storage = window.localStorage, //保存到本地区
     JSON = window.JSON, keyPrefix = 'ClientsideDrafts::drafts',
     mediaWiki = window.mediaWiki, textareaSelector = '#wpTextbox1',
     log, showMessage, t,
